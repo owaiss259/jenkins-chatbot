@@ -1,31 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Chatbot</title>
+    <title>Jenkins Chatbot</title>
 </head>
 <body>
+    <h2>Jenkins Pipeline Chatbot</h2>
 
-<h2>Jenkins Chatbot</h2>
+    <input type="text" id="message" placeholder="Type something..." />
+    <button onclick="sendMessage()">Send</button>
 
-<input type="text" id="message">
-<button onclick="sendMessage()">Send</button>
+    <p id="response"></p>
 
-<p id="response"></p>
+    <script>
+        async function sendMessage() {
+            const message = document.getElementById("message").value;
 
-<script>
-async function sendMessage() {
-    const message = document.getElementById("message").value;
+            const res = await fetch("/chat", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ message: message })
+            });
 
-    const res = await fetch("http://127.0.0.1:8000/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: message })
-    });
-
-    const data = await res.json();
-    document.getElementById("response").innerText = data.reply;
-}
-</script>
-
+            const data = await res.json();
+            document.getElementById("response").innerText = data.reply;
+        }
+    </script>
 </body>
 </html>
